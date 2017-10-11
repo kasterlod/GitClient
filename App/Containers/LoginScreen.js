@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { View, Text, KeyboardAvoidingView, Keyboard } from 'react-native'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
+import { isEmail } from '../Utils'
 import LoginActions from '../Redux/LoginRedux'
 import Input from '../Components/Input'
 import Button from '../Components/Button'
@@ -47,7 +48,7 @@ class LoginScreen extends Component {
               submitting={submitting}
               disabled={invalid || !dirty}
               style={s.button}
-              text={'Sign in ' + token + submitting}
+              text={'Sign in'}
             />
           </View>
         </KeyboardAvoidingView>
@@ -56,20 +57,24 @@ class LoginScreen extends Component {
   }
 }
 
-const validate = (values) => {
+const validate = ({email, password}) => {
   const errors = {}
-  if(!values.email) {
+  if (!email) {
+    errors['email'] = ' '
+  } else if (!isEmail(email)) {
     errors['email'] = ' '
   }
-  if(!values.password) {
+  if (!password) {
+    errors['password'] = ' '
+  } else if (password.length > 12 || password.length < 5) {
     errors['password'] = ' '
   }
   return errors
 }
 
 const mapStateToProps = (state) => ({
-  token: state.User.token
-  //userFetching: state.User.userFetching
+  token: state.User.token,
+  initialValues: state.User.initialValues,
 })
 
 const mapDispatchToProps = (dispatch) => ({

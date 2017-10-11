@@ -6,7 +6,7 @@ import { startsWith } from 'ramdasauce'
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  loginAttempt: ['email', 'password'],
+  loginAttempt: ['values'],
   loginSuccess: ['token'],
   loginFailure: null,
 })
@@ -18,6 +18,9 @@ export default Creators
 
 export const INITIAL_STATE = Immutable({
   token: null,
+  initialValues: {
+    email: 'test@email.com'
+  }
 })
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -25,6 +28,5 @@ export const INITIAL_STATE = Immutable({
 export const reducer = createReducer(INITIAL_STATE, {
   [Types.LOGIN_SUCCESS]: (state, { token }) => ({
     token,
-    userFetching: false,
   }),
 })
