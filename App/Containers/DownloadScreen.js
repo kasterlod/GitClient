@@ -9,11 +9,14 @@ import s from './Styles/DownloadScreenStyle'
 class DownloadScreen extends Component {
   render() {
     const {
+      totalFiles,
+      currentFiles,
       newestVersion,
       currentVersion,
       newestVersionDate,
       currentVersionDate,
       checkVersionFetching,
+      offlineAvailableFiles,
       checkVersionFetchingSuccess
     } = this.props
 
@@ -44,29 +47,32 @@ class DownloadScreen extends Component {
           <View style={s.mainPanel}>
             <View style={s.row}>
                 <Text style={s.h}>Total files</Text>
-                <Text style={s.a_sm}>0 / 10</Text>
+                <Text style={s.a_sm}>{totalFiles}</Text>
             </View>
             <View style={s.row}>
                 <Text style={s.h}>Offline available files</Text>
-                <Text style={s.a_sm}>0 / 10</Text>
+                <Text style={s.a_sm}>{`${offlineAvailableFiles} / ${totalFiles}`}</Text>
             </View>
           </View>
           <View style={s.indicator}><BarIndicator color='deeppink' animationDuration={1200} count={5} size={20}/></View>
           <View style={s.row}>
-            <Button
+            {newestVersion === currentVersion && <Button style={s.hidden} />}
+            {newestVersion > currentVersion
+            && <Button
                 //onPress={this.handleSubmit}
                 //submitting={submitting}
                 //disabled={invalid || !dirty}
                 style={s.button}
                 text={'Download Offline'}
-            />
-            <Button
+            />}
+            {newestVersion > currentVersion
+            && <Button
                 //onPress={this.handleSubmit}
                 //submitting={submitting}
                 //disabled={invalid || !dirty}
                 style={s.button}
                 text={'Download Online'}
-            />
+            />}
             {currentVersion > 0 && <Button
                 //onPress={this.handleSubmit}
                 //submitting={submitting}
@@ -87,7 +93,11 @@ const mapStateToProps = (state) => ({
   newestVersion: state.App.newestVersion,
   newestVersionDate: state.App.newestVersionDate,
   checkVersionFetching: state.App.checkVersionFetching,
-  checkVersionFetchingSuccess: state.App.checkVersionFetchingSuccess
+  checkVersionFetchingSuccess: state.App.checkVersionFetchingSuccess,
+  totalFiles: state.App.totalFiles,
+  currentFiles: state.App.currentFiles,
+  newestFiles: state.App.newestFiles,
+  offlineAvailableFiles: state.App.offlineAvailableFiles,
 })
 
 const mapDispatchToProps = (dispatch) => {

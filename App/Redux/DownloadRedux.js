@@ -17,8 +17,12 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  newestVersion: 1,
-  currentVersion: 0,
+  totalFiles: 5,
+  currentFiles: 0,
+  newestFiles: 7,
+  newestVersion: 4,
+  currentVersion: 2,
+  offlineAvailableFiles: 2,
   newestVersionDate: 'Fri Oct 14 2017',
   checkVersionFetching: false,
   checkVersionFetchingSuccess: true,

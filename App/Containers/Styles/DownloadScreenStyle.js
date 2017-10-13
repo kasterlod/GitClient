@@ -73,5 +73,9 @@ export default StyleSheet.create({
   },
   indicator: {
     marginTop: 100,
+  },
+  hidden: {
+    width: 0,
+    height: 0,
   }
 })
