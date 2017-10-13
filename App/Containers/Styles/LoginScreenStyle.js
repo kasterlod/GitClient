@@ -1,8 +1,6 @@
 import { StyleSheet } from 'react-native'
-import { ApplicationStyles } from '../../Themes/'
 
 export default {
-  ...ApplicationStyles.screen,
   container: {
     flex: 1,
     justifyContent: 'center',
@@ -13,7 +11,7 @@ export default {
     flexDirection: 'column',
     alignSelf: 'stretch',
     width: 320,
-    borderRadius: 10,
+    borderRadius: 8,
     padding: '10%',
   },
   input: {

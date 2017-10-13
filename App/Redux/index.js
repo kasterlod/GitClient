@@ -9,7 +9,8 @@ export default () => {
     nav: require('./NavigationRedux').reducer,
     github: require('./GithubRedux').reducer,
     search: require('./SearchRedux').reducer,
-    User: require('./LoginRedux').reducer,    
+    User: require('./LoginRedux').reducer,
+    App: require('./DownloadRedux').reducer,    
     form: formReducer,
   })
 

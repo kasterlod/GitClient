@@ -1,16 +1,6 @@
 import React, { Component } from 'react'
 import {TouchableOpacity, View, Text} from 'react-native'
-import {
-  BallIndicator,
-  BarIndicator,
-  DotIndicator,
-  MaterialIndicator,
-  PacmanIndicator,
-  PulseIndicator,
-  SkypeIndicator,
-  UIActivityIndicator,
-  WaveIndicator
-} from 'react-native-indicators';
+import {BarIndicator} from 'react-native-indicators';
 
 export default class extends Component {
   componentWillReceiveProps({disabled, submitting}) {
@@ -36,7 +26,7 @@ export default class extends Component {
           <BarIndicator color='deeppink' animationDuration={1200} count={5} size={20}/>
         </View>
       : <TouchableOpacity ref={ref => this.button = ref} {...inputProps}>
-          <Text style={{color: 'white', fontWeight: 'bold'}}>{text}</Text>
+          <Text style={{color: 'white', fontWeight: 'bold', textAlign: 'center'}}>{text}</Text>
         </TouchableOpacity>
     )
   }
