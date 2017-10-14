@@ -11,7 +11,8 @@ const { Types, Creators } = createActions({
   getSettingsAttempt: null,
   getSettingsSuccess: ['values'],
   saveSettingsAttempt: ['values'],
-  loginFailure: null,
+  getNewestVersionAttempt: null,
+  getNewestVersionSuccess: ['values']
 })
 
 export const DownloadTypes = Types
@@ -22,6 +23,7 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   storeOlderFiles: true,
   currentVersion: 0,
+  downloading: false,
   currentVersionDate: new Date().toDateString(),
   checkVersionFetching: true,
   checkVersionFetchingSuccess: false,
@@ -35,5 +37,10 @@ export const reducer = createReducer(INITIAL_STATE, {
   }),
   [Types.GET_SETTINGS_SUCCESS]: (state, { values }) => state.merge({
     ...values,
+  }),
+  [Types.GET_NEWEST_VERSION_SUCCESS]: (state, { values }) => state.merge({
+    ...values,
+    checkVersionFetchingSuccess: true,
+    checkVersionFetching: false,
   }),
 })

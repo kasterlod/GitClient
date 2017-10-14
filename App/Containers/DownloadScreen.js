@@ -11,11 +11,13 @@ import s from './Styles/DownloadScreenStyle'
 class DownloadScreen extends Component {
   componentWillMount() {
     this.props.getSettingsAttempt()
+    setTimeout(() => this.props.getNewestVersionAttempt(), 2000)
   }
 
   render() {
     const {
       totalFiles,
+      downloading,
       newestVersion,
       currentVersion,
       storeOlderFiles,
@@ -24,7 +26,8 @@ class DownloadScreen extends Component {
       onStoreCheckedChange,
       checkVersionFetching,
       offlineAvailableFiles,
-      checkVersionFetchingSuccess
+      newestVersionTotalFiles,
+      checkVersionFetchingSuccess,
     } = this.props
 
     return (
@@ -54,14 +57,20 @@ class DownloadScreen extends Component {
           <View style={s.mainPanel}>
             <View style={s.row}>
               <Text style={s.h}>Total files</Text>
-              <Text style={s.a_sm}>{totalFiles}</Text>
+              <View style={s.row}>
+                <Text style={s.a_sm}>{totalFiles}</Text>
+                {newestVersion > currentVersion
+                  && <Text style={totalFiles < newestVersionTotalFiles ? s.a_sm_g : s.a_sm_r}>
+                    {` -> ${newestVersionTotalFiles}`}
+                </Text>}
+              </View>
             </View>
             <View style={s.row}>
               <Text style={s.h}>Offline available files</Text>
               <Text style={s.a_sm}>{`${offlineAvailableFiles} / ${totalFiles}`}</Text>
             </View>
             <View style={s.row}>
-              <Text style={s.h}>Store older versions of files too</Text>
+              <Text style={s.h}>Store older versions of files</Text>
               <CheckBox 
                 checked={storeOlderFiles}
                 checkedColor={'deeppink'} 
@@ -74,7 +83,8 @@ class DownloadScreen extends Component {
           <View style={s.indicator}><BarIndicator color='deeppink' animationDuration={1200} count={5} size={20}/></View>
           <View style={s.row}>
             {(newestVersion === currentVersion
-            || (currentVersion > 0 && !newestVersion))
+            || (currentVersion > 0 && !newestVersion)
+            || downloading)
             && <Button style={s.hidden} />}
             {newestVersion > currentVersion
             && <Button
@@ -92,12 +102,13 @@ class DownloadScreen extends Component {
                 style={s.button}
                 text={'Download Online'}
             />}
-            {currentVersion > 0 && <Button
+            {(currentVersion > 0 || downloading)
+              && <Button
                 //onPress={this.handleSubmit}
                 //submitting={submitting}
                 //disabled={invalid || !dirty}
                 style={s.button}
-                text={'Skip'}
+                text={downloading ? 'Cancel & Skip' : 'Skip'}
             />}
             </View>
         </KeyboardAvoidingView>
@@ -117,11 +128,14 @@ const mapStateToProps = (state) => ({
   newestFiles: state.App.newestFiles,
   offlineAvailableFiles: state.App.offlineAvailableFiles,
   storeOlderFiles: state.App.storeOlderFiles,
+  newestVersionTotalFiles: state.App.newestVersionTotalFiles,
+  downloading: state.App.downloading,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   onStoreCheckedChange: () => dispatch(DownloadActions.onStoreCheckedChange()),
   getSettingsAttempt: () => dispatch(DownloadActions.getSettingsAttempt()),
+  getNewestVersionAttempt: () => dispatch(DownloadActions.getNewestVersionAttempt()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DownloadScreen)

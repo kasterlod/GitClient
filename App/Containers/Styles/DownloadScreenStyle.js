@@ -44,6 +44,16 @@ export default StyleSheet.create({
     fontWeight: 'bold',
     textAlign: 'center'
   },
+  a_sm_g: {
+    color: 'green',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
+  a_sm_r: {
+    color: 'crimson',
+    fontWeight: 'bold',
+    textAlign: 'center'
+  },
   d: {
     color: 'gray',
     textAlign: 'center',

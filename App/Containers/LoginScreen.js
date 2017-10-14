@@ -10,11 +10,6 @@ import Button from '../Components/Button'
 import s from './Styles/LoginScreenStyle'
 
 class LoginScreen extends Component {
-  constructor() {
-    super()
-    //this.props.getRealmInstanceAttempt()
-  }
-
   handleSubmit = () => {
     Keyboard.dismiss()
     this.props.handleSubmit()
@@ -84,7 +79,6 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onSubmit: (values) => dispatch(LoginActions.loginAttempt({...values})),
-  getRealmInstanceAttempt: () => dispatch(DownloadActions.getRealmInstanceAttempt()),
 })
 
 const LoginScreenForm = reduxForm({
