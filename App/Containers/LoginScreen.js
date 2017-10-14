@@ -4,11 +4,16 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { isEmail } from '../Utils'
 import LoginActions from '../Redux/LoginRedux'
+import DownloadActions from '../Redux/DownloadRedux'
 import Input from '../Components/Input'
 import Button from '../Components/Button'
 import s from './Styles/LoginScreenStyle'
 
 class LoginScreen extends Component {
+  constructor() {
+    super()
+    //this.props.getRealmInstanceAttempt()
+  }
 
   handleSubmit = () => {
     Keyboard.dismiss()
@@ -78,7 +83,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  onSubmit: (values) => dispatch(LoginActions.loginAttempt({...values}))
+  onSubmit: (values) => dispatch(LoginActions.loginAttempt({...values})),
+  getRealmInstanceAttempt: () => dispatch(DownloadActions.getRealmInstanceAttempt()),
 })
 
 const LoginScreenForm = reduxForm({

@@ -2,36 +2,38 @@ import { createReducer, createActions } from 'reduxsauce'
 import Immutable from 'seamless-immutable'
 import { filter } from 'ramda'
 import { startsWith } from 'ramdasauce'
+import getRealmInstance from '../Realm'
 
 /* ------------- Types and Action Creators ------------- */
 
 const { Types, Creators } = createActions({
-  loginAttempt: ['values'],
-  loginSuccess: ['token'],
+  onStoreCheckedChange: null,
+  getSettingsAttempt: null,
+  getSettingsSuccess: ['values'],
+  saveSettingsAttempt: ['values'],
   loginFailure: null,
 })
 
-export const LoginTypes = Types
+export const DownloadTypes = Types
 export default Creators
 
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  totalFiles: 5,
-  currentFiles: 0,
-  newestFiles: 7,
-  newestVersion: 4,
-  currentVersion: 2,
-  offlineAvailableFiles: 2,
-  newestVersionDate: 'Fri Oct 14 2017',
-  checkVersionFetching: false,
-  checkVersionFetchingSuccess: true,
+  storeOlderFiles: true,
+  currentVersion: 0,
+  currentVersionDate: new Date().toDateString(),
+  checkVersionFetching: true,
+  checkVersionFetchingSuccess: false,
 })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.LOGIN_SUCCESS]: (state, { token }) => ({
-    token,
+  [Types.ON_STORE_CHECKED_CHANGE]: (state) => state.merge({
+    storeOlderFiles: !state.storeOlderFiles,
+  }),
+  [Types.GET_SETTINGS_SUCCESS]: (state, { values }) => state.merge({
+    ...values,
   }),
 })

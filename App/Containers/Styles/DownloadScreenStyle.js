@@ -4,14 +4,14 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
   versionContainer: {
     flex: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 35,
+    marginBottom: 35
   },
   smallPanel: {
     width: 130,
@@ -20,43 +20,43 @@ export default StyleSheet.create({
     padding: 8,
     borderRadius: 8,
     backgroundColor: 'white',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   mainPanel: {
     margin: 10,
     borderRadius: 8,
     backgroundColor: 'white',
     padding: 15,
-    height: 140,
+    height: 140
   },
   h: {
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   a: {
     color: 'deeppink',
     fontWeight: 'bold',
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: 'center'
   },
   a_sm: {
     color: 'deeppink',
     fontWeight: 'bold',
-    textAlign: 'center',
+    textAlign: 'center'
   },
   d: {
     color: 'gray',
     textAlign: 'center',
-    opacity: 0.6,
+    opacity: 0.6
   },
   i: {
     flex: 1,
-    alignSelf: 'center',
+    alignSelf: 'center'
   },
   row: {
     height: 25,
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   },
   button: {
     backgroundColor: 'deeppink',
@@ -69,13 +69,25 @@ export default StyleSheet.create({
     justifyContent: 'center',
     opacity: 0.2,
     width: 100,
-    height: 47,
+    height: 47
   },
   indicator: {
-    marginTop: 100,
+    marginTop: 100
   },
   hidden: {
     width: 0,
-    height: 0,
+    height: 0
+  },
+  checkbox: {
+    backgroundColor: 'transparent',
+    borderColor: 'transparent',
+    margin: 0,
+    justifyContent: 'center',
+    alignSelf: 'flex-end',
+    flexDirection: 'column',
+    height: 30,
+    width: 25,
+    padding: 0,
+    marginRight: -5
   }
 })

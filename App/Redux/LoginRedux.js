@@ -26,7 +26,7 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.LOGIN_SUCCESS]: (state, { token }) => ({
+  [Types.LOGIN_SUCCESS]: (state, { token }) => state.merge({
     token,
   }),
 })
