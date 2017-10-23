@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
-import { ScrollView, Text, KeyboardAvoidingView } from 'react-native'
+import { ScrollView, Text, KeyboardAvoidingView, View } from 'react-native'
 import { connect } from 'react-redux'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
-
-// Styles
-import styles from './Styles/HomeScreenStyle'
+import s from './Styles/HomeScreenStyle'
 
 class HomeScreen extends Component {
   render () {
     return (
-      <ScrollView style={styles.container}>
+      <View style={s.container}>
         <KeyboardAvoidingView behavior='position'>
+          <View style={s.header}>
+
+          </View>
+          <View style={s.location}>
+          
+          </View>
           <Text>HomeScreen</Text>
         </KeyboardAvoidingView>
-      </ScrollView>
+      </View>
     )
   }
 }

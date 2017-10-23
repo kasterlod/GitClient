@@ -22,7 +22,7 @@ export default class extends Component {
 
     return (
       submitting
-      ? <View style={{marginTop: 25}}>
+      ? <View style={{marginTop: 37, marginBottom: 15}}>
           <BarIndicator color='deeppink' animationDuration={1200} count={5} size={20}/>
         </View>
       : <TouchableOpacity ref={ref => this.button = ref} {...inputProps}>
