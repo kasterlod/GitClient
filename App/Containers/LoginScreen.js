@@ -19,6 +19,7 @@ class LoginScreen extends Component {
     const { 
       handleSubmit,
       submitting,
+      fetching,
       invalid,
       dirty,
       token,
@@ -45,7 +46,7 @@ class LoginScreen extends Component {
               password/>
             <Button
               onPress={this.handleSubmit}
-              submitting={submitting}
+              submitting={submitting || fetching}
               disabled={invalid || !dirty}
               style={s.button}
               text={'Sign in'}
@@ -73,6 +74,7 @@ const validate = ({email, password}) => {
 }
 
 const mapStateToProps = (state) => ({
+  fetching: state.User.fetching,
   token: state.User.token,
   initialValues: state.User.initialValues,
 })

@@ -18,14 +18,22 @@ export default Creators
 
 export const INITIAL_STATE = Immutable({
   token: null,
+  fetching: false,
   initialValues: {
-    email: 'test@email.com'
+    email: 'test@email.com',
+    password: 'Test123!'
   }
 })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
+  [Types.LOGIN_ATTEMPT]: (state) => state.merge({
+    fetching: true,
+  }),
+  [Types.LOGIN_FAILURE]: (state) => state.merge({
+    fetching: false,
+  }),
   [Types.LOGIN_SUCCESS]: (state, { token }) => state.merge({
     token,
   }),
