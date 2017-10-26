@@ -10,7 +10,8 @@ export default () => {
     github: require('./GithubRedux').reducer,
     search: require('./SearchRedux').reducer,
     User: require('./LoginRedux').reducer,
-    App: require('./DownloadRedux').reducer,    
+    App: require('./DownloadRedux').reducer,
+    Home: require('./HomeRedux').reducer,    
     form: formReducer,
   })
 
