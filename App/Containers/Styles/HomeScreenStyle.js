@@ -82,5 +82,9 @@ export default {
   },
   unavailable: {
     backgroundColor: 'gray',
+  },
+  indicator: {
+    alignSelf: 'center',
+    marginBottom: 200,
   }
 }

@@ -6,10 +6,12 @@ import {startsWith} from 'ramdasauce'
 /* ------------- Types and Action Creators ------------- */
 
 const {Types, Creators} = createActions({
-  navigateTo: ['name'],
-  navigateToSuccess: ['data'],
+  getInitialLocationAttempt: null,
+  getInitialLocationSuccess: ['values'],
+  navigateTo: ['id'],
+  navigateToSuccess: ['location'],
   navigateBack: null,
-  navigateBackSuccess: ['data'],
+  navigateBackSuccess: ['location'],
 })
 
 export const HomeTypes = Types
@@ -52,13 +54,18 @@ export const INITIAL_STATE = Immutable({
       id: 10,
     }
   ],
-  viewType: 1
+  viewType: 1,
+  fetching: true,
 })
 
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.NAVIGATE_BACK_SUCCESS]: (state, {data}) => state.merge({
+  [Types.NAVIGATE_BACK_SUCCESS]: (state, { data }) => state.merge({
     data
+  }),
+  [Types.GET_INITIAL_LOCATION_SUCCESS]: (state, { values }) => state.merge({
+    ...values,
+    fetching: false
   }),
 })

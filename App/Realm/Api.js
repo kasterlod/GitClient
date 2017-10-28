@@ -37,7 +37,6 @@ export const saveStructure = ImmutableRealm((props, realm) => {
     if(version > 1) {
         previousStructure = realm.objectForPrimaryKey('Structure', version - 1)
     }
-    try {
     realm.write(() => {
         const files = previousStructure ? previousStructure.data : []
         data.forEach((file) => {
@@ -48,6 +47,12 @@ export const saveStructure = ImmutableRealm((props, realm) => {
             version,
             data: files,
         })
-    })} catch(error) {console.tron.log(error)}
+    })
     return true
+})
+
+export const getInitialLocation = ImmutableRealm((props, realm) => {
+    const settings = realm.objectForPrimaryKey('Settings', 0)
+    const currentStructure = realm.objectForPrimaryKey('Structure', settings.currentVersion)
+    return currentStructure.data.filtered('parent == 0')
 })

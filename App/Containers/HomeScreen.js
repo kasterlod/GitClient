@@ -3,6 +3,8 @@ import {
   ScrollView, Text, KeyboardAvoidingView, View, FlatList,
   TouchableOpacity, } from 'react-native'
 import { connect } from 'react-redux'
+import HomeActions from '../Redux/HomeRedux'
+import {BarIndicator} from 'react-native-indicators';
 import s from './Styles/HomeScreenStyle'
 
 const gridItem = (({item: { key }}) => {console.log(key); return <Text>{key}</Text>})
@@ -22,8 +24,12 @@ const rowItem = (({item: { id, modified, name, isAvailable, type }}) =>
 </TouchableOpacity>)
 
 class HomeScreen extends Component {
+  componentDidMount() {
+    this.props.getInitialLocation()
+  }
+
   render () {
-    const { data, path, viewType } = this.props
+    const { data, path, viewType, fetching } = this.props
     return (
       <View style={s.container}>
         <KeyboardAvoidingView behavior='position'>
@@ -38,12 +44,14 @@ class HomeScreen extends Component {
             >{name}{i + 1 < path.length ? ' / ' : ''}
             </Text>)}
           </ScrollView>
-          <FlatList
+          {fetching ?
+            <View style={s.indicator}><BarIndicator color='deeppink' animationDuration={1200} count={5} size={20}/></View>
+            : <FlatList
             style={s.scroll}
             numColumns={viewType}
             data={data}
             renderItem={viewType === 1 ? rowItem : gridItem}
-          />
+          />}
         </KeyboardAvoidingView>
       </View>
     )
@@ -54,11 +62,11 @@ const mapStateToProps = (state) => ({
   data: state.Home.data,
   path: state.Home.path,
   viewType: state.Home.viewType,
+  fetching: state.Home.fetching,
 })
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-  }
-}
+const mapDispatchToProps = (dispatch) => ({
+  getInitialLocation: () => dispatch(HomeActions.getInitialLocationAttempt()) 
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

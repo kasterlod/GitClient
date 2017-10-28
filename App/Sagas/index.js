@@ -9,6 +9,7 @@ import { StartupTypes } from '../Redux/StartupRedux'
 import { GithubTypes } from '../Redux/GithubRedux'
 import { LoginTypes } from '../Redux/LoginRedux'
 import { DownloadTypes } from '../Redux/DownloadRedux'
+import { HomeTypes } from '../Redux/HomeRedux'
 
 /* ------------- Sagas ------------- */
 
@@ -21,6 +22,7 @@ import {
   getNewestVersionAttempt,
   upgradeStructureAttempt,
 } from './DownloadSagas'
+import { getInitialLocationAttempt } from './HomeSagas'
 
 /* ------------- API ------------- */
 
@@ -43,7 +45,9 @@ export default function * root () {
     takeLatest(DownloadTypes.NAVIGATE_TO_HOME, navigateToHome),
     takeLatest(DownloadTypes.GET_SETTINGS_ATTEMPT, getSettingsAttempt),
     takeLatest(DownloadTypes.GET_NEWEST_VERSION_ATTEMPT, getNewestVersionAttempt, api),
-    takeLatest(DownloadTypes.UPGRADE_STRUCTURE_ATTEMPT, upgradeStructureAttempt, api)
+    takeLatest(DownloadTypes.UPGRADE_STRUCTURE_ATTEMPT, upgradeStructureAttempt, api),
+    
+    takeLatest(HomeTypes.GET_INITIAL_LOCATION_ATTEMPT, getInitialLocationAttempt)
 
   ])
 }
