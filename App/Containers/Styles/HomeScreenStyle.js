@@ -48,8 +48,17 @@ export default {
   },
   nameR: {
     height: 20,
-    margin: 10,
-    backgroundColor: 'red'
+    marginHorizontal: 10,
+    fontWeight: 'bold',
+  },
+  colContainer: {
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+  typeR: {
+    height: 20,
+    marginHorizontal: 10,
+    color: 'deeppink'
   },
   dateR: {
     position: 'absolute',

@@ -1,11 +1,11 @@
 import Realm from 'realm'
 import {
+    Structure,
     Settings,
     Files,
 } from './Schemas'
 
-const realm = new Realm({schema: [Settings, Files],
-  schemaVersion: 3, migration: (oldRealm, newRealm) => newRealm})
+const realm = new Realm({schema: [Settings, Files, Structure], schemaVersion: 14 })
 
 export const ImmutableRealm = (func, option = {}) => {
     const defaultCopy = (item) => JSON.parse(JSON.stringify(item))

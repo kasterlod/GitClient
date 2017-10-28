@@ -25,10 +25,27 @@ export const Files = {
     name: 'File',
     primaryKey: 'id',
     properties: {
-        id: 'int',
+        id: 'string',
+        key: 'int',
         name: 'string',
         type: 'string',
+        parent: 'int',
+        modified: 'string',
+        isAvailable: {
+            type: 'bool',
+            default: false,
+        },
+    }
+}
+
+export const Structure = {
+    name: 'Structure',
+    primaryKey: 'version',
+    properties: {
         version: 'int',
-        data: 'string',
+        data: {
+            type: 'list',
+            objectType: 'File',
+        },
     }
 }

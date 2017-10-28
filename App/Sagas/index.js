@@ -15,7 +15,12 @@ import { DownloadTypes } from '../Redux/DownloadRedux'
 import { startup } from './StartupSagas'
 import { getUserAvatar } from './GithubSagas'
 import { loginAttempt } from './LoginSagas'
-import { getSettingsAttempt, getNewestVersionAttempt } from './DownloadSagas'
+import { 
+  navigateToHome,
+  getSettingsAttempt,
+  getNewestVersionAttempt,
+  upgradeStructureAttempt,
+} from './DownloadSagas'
 
 /* ------------- API ------------- */
 
@@ -35,8 +40,10 @@ export default function * root () {
 
     takeLatest(LoginTypes.LOGIN_ATTEMPT, loginAttempt, api),
 
+    takeLatest(DownloadTypes.NAVIGATE_TO_HOME, navigateToHome),
     takeLatest(DownloadTypes.GET_SETTINGS_ATTEMPT, getSettingsAttempt),
     takeLatest(DownloadTypes.GET_NEWEST_VERSION_ATTEMPT, getNewestVersionAttempt, api),
+    takeLatest(DownloadTypes.UPGRADE_STRUCTURE_ATTEMPT, upgradeStructureAttempt, api)
 
   ])
 }

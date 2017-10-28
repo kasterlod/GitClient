@@ -16,9 +16,12 @@ class DownloadScreen extends Component {
 
   render() {
     const {
+      upgrading,
       totalFiles,
       downloading,
+      totalElements,
       newestVersion,
+      navigateToHome,
       currentVersion,
       storeOlderFiles,
       newestVersionDate,
@@ -26,7 +29,8 @@ class DownloadScreen extends Component {
       onStoreCheckedChange,
       checkVersionFetching,
       offlineAvailableFiles,
-      newestVersionTotalFiles,
+      upgradeStructureAttempt,
+      newestVersionTotalElements,
       checkVersionFetchingSuccess,
     } = this.props
 
@@ -56,12 +60,12 @@ class DownloadScreen extends Component {
           </View>
           <View style={s.mainPanel}>
             <View style={s.row}>
-              <Text style={s.h}>Total files</Text>
+              <Text style={s.h}>Total elements</Text>
               <View style={s.row}>
-                <Text style={s.a_sm}>{totalFiles}</Text>
+                <Text style={s.a_sm}>{totalElements}</Text>
                 {newestVersion > currentVersion
-                  && <Text style={totalFiles < newestVersionTotalFiles ? s.a_sm_g : s.a_sm_r}>
-                    {` -> ${newestVersionTotalFiles}`}
+                  && <Text style={totalElements < newestVersionTotalElements ? s.a_sm_g : s.a_sm_r}>
+                    {` -> ${newestVersionTotalElements}`}
                 </Text>}
               </View>
             </View>
@@ -82,33 +86,25 @@ class DownloadScreen extends Component {
           </View>
           <View style={s.indicator}><BarIndicator color='deeppink' animationDuration={1200} count={5} size={20}/></View>
           <View style={s.row}>
-            {(newestVersion === currentVersion
-            || (currentVersion > 0 && !newestVersion)
-            || downloading)
+            {((newestVersion > currentVersion && !currentVersion))
             && <Button style={s.hidden} />}
-            {newestVersion > currentVersion
+            {newestVersion >= currentVersion && currentVersion && !upgrading && !downloading
             && <Button
-                //onPress={this.handleSubmit}
-                //submitting={submitting}
-                //disabled={invalid || !dirty}
+                onPress={navigateToHome}
                 style={s.button}
-                text={'Download Offline'}
+                text={'Skip'}
             />}
-            {newestVersion > currentVersion
+            {!downloading && !upgrading && totalFiles > offlineAvailableFiles
             && <Button
-                //onPress={this.handleSubmit}
-                //submitting={submitting}
-                //disabled={invalid || !dirty}
+                onPress={upgradeStructureAttempt}
                 style={s.button}
-                text={'Download Online'}
+                text={'Download Files'}
             />}
-            {(currentVersion > 0 || downloading)
-              && <Button
-                //onPress={this.handleSubmit}
-                //submitting={submitting}
-                //disabled={invalid || !dirty}
+            {newestVersion > currentVersion && !upgrading
+            && <Button
+                onPress={upgradeStructureAttempt}
                 style={s.button}
-                text={downloading ? 'Cancel & Skip' : 'Skip'}
+                text={'Upgrade Structure'}
             />}
             </View>
         </KeyboardAvoidingView>
@@ -128,14 +124,18 @@ const mapStateToProps = (state) => ({
   newestFiles: state.App.newestFiles,
   offlineAvailableFiles: state.App.offlineAvailableFiles,
   storeOlderFiles: state.App.storeOlderFiles,
-  newestVersionTotalFiles: state.App.newestVersionTotalFiles,
+  newestVersionTotalElements: state.App.newestVersionTotalElements,
   downloading: state.App.downloading,
+  upgrading: state.App.upgrading,
+  totalElements: state.App.totalElements,
 })
 
 const mapDispatchToProps = (dispatch) => ({
   onStoreCheckedChange: () => dispatch(DownloadActions.onStoreCheckedChange()),
   getSettingsAttempt: () => dispatch(DownloadActions.getSettingsAttempt()),
   getNewestVersionAttempt: () => dispatch(DownloadActions.getNewestVersionAttempt()),
+  upgradeStructureAttempt: () => dispatch(DownloadActions.upgradeStructureAttempt()),
+  navigateToHome: () => dispatch(DownloadActions.navigateToHome()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(DownloadScreen)

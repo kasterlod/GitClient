@@ -8,11 +8,20 @@ import getRealmInstance from '../Realm'
 
 const { Types, Creators } = createActions({
   onStoreCheckedChange: null,
+
   getSettingsAttempt: null,
   getSettingsSuccess: ['values'],
+
   saveSettingsAttempt: ['values'],
+
   getNewestVersionAttempt: null,
-  getNewestVersionSuccess: ['values']
+  getNewestVersionSuccess: ['values'],
+
+  upgradeStructureAttempt: null,
+  upgradeStructureSuccess: ['values'],
+  upgradeStructureFailure: null,
+
+  navigateToHome: null,
 })
 
 export const DownloadTypes = Types
@@ -23,10 +32,12 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   storeOlderFiles: true,
   currentVersion: 0,
+  totalElements: 0,
   downloading: false,
   currentVersionDate: new Date().toDateString(),
   checkVersionFetching: true,
   checkVersionFetchingSuccess: false,
+  upgrading: false,
 })
 
 /* ------------- Hookup Reducers To Types ------------- */
@@ -42,5 +53,18 @@ export const reducer = createReducer(INITIAL_STATE, {
     ...values,
     checkVersionFetchingSuccess: true,
     checkVersionFetching: false,
+  }),
+  [Types.UPGRADE_STRUCTURE_ATTEMPT]: (state) => state.merge({
+    upgrading: true,
+  }),
+  [Types.UPGRADE_STRUCTURE_SUCCESS]: (state, { values }) => state.merge({
+    ...values,
+    upgrading: false,
+    currentVersion: state.newestVersion,
+    currentVersionDate: state.newestVersionDate,
+    totalElements: state.newestVersionTotalElements,
+  }),
+  [Types.UPGRADE_STRUCTURE_FAILURE]: (state) => state.merge({
+    upgrading: false,
   }),
 })

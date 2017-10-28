@@ -77,7 +77,6 @@ export default StyleSheet.create({
     alignSelf: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
-    opacity: 0.2,
     width: 100,
     height: 47
   },

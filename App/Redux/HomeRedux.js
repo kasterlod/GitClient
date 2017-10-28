@@ -20,18 +20,27 @@ export default Creators
 export const INITIAL_STATE = Immutable({
   data: [
     {
-      id: 1,
+      key: 1,
       name: 'jakis.txt',
       type: 'text',
       parent: 0,
       modified: '2016-09-21 14:32:17',
+      isAvailable: true,
     }, {
-      id: 2,
+      key: 2,
       name: 'obrazki',
       type: 'directory',
       parent: 0,
       modified: '2016-10-11 09:07:42',
-    }
+    },
+    {
+      key: 3,
+      name: 'jakis2.jpg',
+      type: 'image',
+      parent: 0,
+      modified: '2016-05-07 14:32:17',
+      isAvailable: true,
+    },
   ],
   path: [
     {

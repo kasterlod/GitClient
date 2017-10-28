@@ -4,7 +4,7 @@ import {BarIndicator} from 'react-native-indicators';
 
 export default class extends Component {
   componentWillReceiveProps({disabled, submitting}) {
-    if(disabled !== this.props.disabled) {
+    if(!!disabled && disabled !== this.props.disabled) {
       this.button.setOpacityTo(disabled ? 0.2 : 1, 150)
     } else if (submitting) {
       this.button.setOpacityTo(1, 150)
