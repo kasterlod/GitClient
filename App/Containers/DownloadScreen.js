@@ -33,7 +33,6 @@ class DownloadScreen extends Component {
       newestVersionTotalElements,
       checkVersionFetchingSuccess,
     } = this.props
-
     return (
       <View style={s.container}>
         <KeyboardAvoidingView behavior='position'>
@@ -86,9 +85,9 @@ class DownloadScreen extends Component {
           </View>
           <View style={s.indicator}><BarIndicator color='deeppink' animationDuration={1200} count={5} size={20}/></View>
           <View style={s.row}>
-            {((newestVersion > currentVersion && !currentVersion))
+            {((newestVersion > currentVersion && currentVersion !== undefined))
             && <Button style={s.hidden} />}
-            {newestVersion >= currentVersion && currentVersion && !upgrading && !downloading
+            {newestVersion >= currentVersion && !!currentVersion && !upgrading && !downloading
             && <Button
                 onPress={navigateToHome}
                 style={s.button}

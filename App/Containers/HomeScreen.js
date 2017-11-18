@@ -4,12 +4,25 @@ import {
   TouchableOpacity, } from 'react-native'
 import { connect } from 'react-redux'
 import HomeActions from '../Redux/HomeRedux'
-import {BarIndicator} from 'react-native-indicators';
+import { BarIndicator } from 'react-native-indicators';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import s from './Styles/HomeScreenStyle'
 
-const gridItem = (({item: { key }}) => {console.log(key); return <Text>{key}</Text>})
+const gridItem = ({item: { id, modified, name, isAvailable, type }}) => 
+<TouchableOpacity
+  style={s.gridItem}
+  key={id}
+>
+  <View style={s.previewG} />
+  <View style={s.colContainerG}>
+    <Text style={s.nameR}>{name}</Text>
+    <Text style={s.typeR}>{type}</Text>
+  </View>
+  <Text style={s.dateG}>{modified}</Text>
+  {isAvailable !== undefined && <View style={{...s.statusG, ...isAvailable ? s.available : s.unavailable}} />}
+</TouchableOpacity>
 
-const rowItem = (({item: { id, modified, name, isAvailable, type }}) =>
+const rowItem = ({item: { id, modified, name, isAvailable, type }}) =>
 <TouchableOpacity
   style={s.rowItem}
   key={id}
@@ -21,7 +34,7 @@ const rowItem = (({item: { id, modified, name, isAvailable, type }}) =>
   </View>
   <Text style={s.dateR}>{modified}</Text>
   {isAvailable !== undefined && <View style={{...s.statusR, ...isAvailable ? s.available : s.unavailable}} />}
-</TouchableOpacity>)
+</TouchableOpacity>
 
 class HomeScreen extends Component {
   componentDidMount() {
@@ -29,12 +42,13 @@ class HomeScreen extends Component {
   }
 
   render () {
-    const { data, path, viewType, fetching } = this.props
+    const { data, path, viewType, fetching, handleChangeView } = this.props
     return (
       <View style={s.container}>
-        <KeyboardAvoidingView behavior='position'>
           <View style={s.header}>
-
+            <TouchableOpacity onPress={handleChangeView}>
+              <Icon name={viewType === 1 ? 'th-large' : 'bars'} size={30} color='deeppink' />
+            </TouchableOpacity>
           </View>
           <View style={s.line} />
           <ScrollView style={s.location} horizontal={true}>
@@ -50,9 +64,10 @@ class HomeScreen extends Component {
             style={s.scroll}
             numColumns={viewType}
             data={data}
+            key={viewType}
+            keyExtractor={(item) => item.id}
             renderItem={viewType === 1 ? rowItem : gridItem}
           />}
-        </KeyboardAvoidingView>
       </View>
     )
   }
@@ -66,7 +81,8 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  getInitialLocation: () => dispatch(HomeActions.getInitialLocationAttempt()) 
+  getInitialLocation: () => dispatch(HomeActions.getInitialLocationAttempt()),
+  handleChangeView: () => dispatch(HomeActions.changeViewType()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

@@ -4,7 +4,7 @@ const getUUID = () => Math.random().toString(36).substring(2) + (new Date()).get
 
 export const getRealmSettings = ImmutableRealm((props, realm) => {
     const settings = realm.objectForPrimaryKey('Settings', 0)
-    const currentStructure = realm.objectForPrimaryKey('Structure', settings.currentVersion)
+    const currentStructure = settings ? realm.objectForPrimaryKey('Structure', settings.currentVersion) : null
     const files = currentStructure ? currentStructure.data : null
     const totalElements = files ? files.length : 0
     const totalFiles = files ? totalElements - files.filtered(`type == 'directory'`).length : 0
@@ -32,27 +32,32 @@ export const saveRealmSettings = ImmutableRealm((props, realm) => {
 })
 
 export const saveStructure = ImmutableRealm((props, realm) => {
-    const { version, data } = props
-    let previousStructure = {}
-    if(version > 1) {
-        previousStructure = realm.objectForPrimaryKey('Structure', version - 1)
+    try{
+        const { version, data } = props
+        realm.write(() => {
+            const files = []
+            data.forEach((file) => {
+                const savedFile = realm.create('File', {...file, id: getUUID()})
+                files.push(savedFile)
+            })
+            realm.create('Structure', {
+                version,
+                data: files,
+            })
+        })
+    } catch(error) {
+        console.log(error)
     }
-    realm.write(() => {
-        const files = previousStructure ? previousStructure.data : []
-        data.forEach((file) => {
-            const savedFile = realm.create('File', {...file, id: getUUID()})
-            files.push(savedFile)
-        })
-        realm.create('Structure', {
-            version,
-            data: files,
-        })
-    })
     return true
 })
 
 export const getInitialLocation = ImmutableRealm((props, realm) => {
-    const settings = realm.objectForPrimaryKey('Settings', 0)
-    const currentStructure = realm.objectForPrimaryKey('Structure', settings.currentVersion)
-    return currentStructure.data.filtered('parent == 0')
+    try {
+        const settings = realm.objectForPrimaryKey('Settings', 0)
+        const currentStructure = realm.objectForPrimaryKey('Structure', settings.currentVersion)
+        return currentStructure.data
+    }
+    catch(err) {
+     console.log(err)
+    }
 })

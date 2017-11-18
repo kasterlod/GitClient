@@ -7,6 +7,8 @@ export default {
     height: 50,
     marginTop: 8,
     backgroundColor: 'white',
+    padding: 10,
+    justifyContent: 'center'
   },
   line: {
     backgroundColor: 'deeppink',
@@ -14,13 +16,14 @@ export default {
   },
   location: {
     flexDirection: 'row',
-    height: 25,
+    maxHeight: 25,
     backgroundColor: 'darkgray',
     paddingHorizontal: 5,
     marginBottom: 2,
   },
   scroll: {
     height: '100%',
+    flex: 1,
   },
   path: {
     paddingTop: 2,
@@ -34,8 +37,8 @@ export default {
   rowItem: {
     flex: 1,
     flexDirection: 'row',
-    height: 70,
-    width: '100%',
+    minHeight: 70,
+    minWidth: '100%',
     padding: 7,
     marginBottom: 2,
     backgroundColor: 'white'
@@ -86,5 +89,43 @@ export default {
   indicator: {
     alignSelf: 'center',
     marginBottom: 200,
-  }
+  },
+  gridItem: {
+    flexDirection: 'column',
+    
+    height: 185,
+    minWidth: '31%',
+    margin: '1%',
+    padding: 7,
+    marginBottom: 2,
+    backgroundColor: 'white'
+  },
+  previewG: {
+    height: 120,
+    width: 100,
+    borderWidth: 1,
+    borderRadius: 5,
+  },
+  colContainerG: {
+    marginTop: 3,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  dateG: {
+    color: 'lightgray',
+    margin: 1,
+    textAlign: 'center',
+    fontSize: 10,
+  },
+  statusG: {
+    borderRadius: 30,
+    borderWidth: 0,
+    height: 10,
+    width: 10,
+    margin: 10,    
+    position: 'absolute',
+    top: 5,
+    right: 7,
+  },
 }

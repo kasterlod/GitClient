@@ -14,7 +14,7 @@ export function * getNewestVersionAttempt(api, action) {
   const { data } = yield call(getRealmSettings)
   let newData = {}
   const random = Math.random()
-  if(random > 0.3 || data.currentVersion === 0) {
+  if(random > 0.3 || +data.currentVersion === 0) {
     newData = {
       newestVersionDate: new Date().toDateString(),
       newestVersion: data.currentVersion + 1,
@@ -46,24 +46,24 @@ export function * upgradeStructureAttempt(api, action) {
     version: newestVersion,
     data: [
     {
-      key: 1 + newestVersion * filesInUpdate,
+      key: 1,
       name: `jakis${newestVersion}.txt`,
       type: 'text',
-      parent: 2 + newestVersion * filesInUpdate,
+      parent: 0,
       modified: dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss'),
       isAvailable: false,
     }, {
-      key: 2 + newestVersion * filesInUpdate,
+      key: 2,
       name: `obrazki${newestVersion}`,
       type: 'directory',
-      parent: 2 + ((newestVersion - 1) * filesInUpdate),
+      parent: 0,
       modified: dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss'),
     },
     {
-      key: 3 + newestVersion * filesInUpdate,
+      key: 3,
       name: `jakis${newestVersion}.jpg`,
       type: 'image',
-      parent: 2 + newestVersion * filesInUpdate,
+      parent: 2,
       modified: dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss'),
       isAvailable: false,
     },

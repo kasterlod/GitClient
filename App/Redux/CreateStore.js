@@ -34,9 +34,14 @@ export default (rootReducer, rootSaga) => {
   }
 
   // if Reactotron is enabled (default for __DEV__), we'll create the store through Reactotron
-  const createAppropriateStore = Config.useReactotron ? console.tron.createStore : createStore
+  const createAppropriateStore = createStore
+  const reduxDevTools = global.reduxNativeDevTools ? global.reduxNativeDevTools(/*options*/) : noop => noop
+  enhancers.push(reduxDevTools)
+  
   const store = createAppropriateStore(rootReducer, compose(...enhancers))
-
+  if (global.reduxNativeDevTools) {
+    global.reduxNativeDevTools.updateStore(store);
+  }
   // configure persistStore and check reducer version number
   if (ReduxPersist.active) {
     RehydrationServices.updateReducers(store)

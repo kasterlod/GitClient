@@ -6,5 +6,5 @@ import { getInitialLocation } from '../Realm/Api'
 
 export function * getInitialLocationAttempt(action) {
   const { data } = yield call(getInitialLocation)
-  yield put(HomeActions.getInitialLocationSuccess({data}))
+  yield put(HomeActions.getInitialLocationSuccess(Object.values(data)))
 }

@@ -12,6 +12,7 @@ const {Types, Creators} = createActions({
   navigateToSuccess: ['location'],
   navigateBack: null,
   navigateBackSuccess: ['location'],
+  changeViewType: null,
 })
 
 export const HomeTypes = Types
@@ -20,30 +21,7 @@ export default Creators
 /* ------------- Initial State ------------- */
 
 export const INITIAL_STATE = Immutable({
-  data: [
-    {
-      key: 1,
-      name: 'jakis.txt',
-      type: 'text',
-      parent: 0,
-      modified: '2016-09-21 14:32:17',
-      isAvailable: true,
-    }, {
-      key: 2,
-      name: 'obrazki',
-      type: 'directory',
-      parent: 0,
-      modified: '2016-10-11 09:07:42',
-    },
-    {
-      key: 3,
-      name: 'jakis2.jpg',
-      type: 'image',
-      parent: 0,
-      modified: '2016-05-07 14:32:17',
-      isAvailable: true,
-    },
-  ],
+  data: [],
   path: [
     {
       name: 'Home',
@@ -54,7 +32,7 @@ export const INITIAL_STATE = Immutable({
       id: 10,
     }
   ],
-  viewType: 1,
+  viewType: 3,
   fetching: true,
 })
 
@@ -65,7 +43,10 @@ export const reducer = createReducer(INITIAL_STATE, {
     data
   }),
   [Types.GET_INITIAL_LOCATION_SUCCESS]: (state, { values }) => state.merge({
-    ...values,
+    data: values,
     fetching: false
+  }),
+  [Types.CHANGE_VIEW_TYPE]: (state) => state.merge({
+    viewType: state.viewType === 1 ? 3 : 1
   }),
 })
