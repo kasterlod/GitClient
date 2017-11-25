@@ -156,9 +156,19 @@ export default {
   },
   sortMenu: {
     position: 'absolute',
-    top: 55,
-    left: 150,
+    top: 25,
+    left: 180,
     width: 140,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    borderRadius: 2
+  },
+  filterMenu: {
+    position: 'absolute',
+    top: 25,
+    left: 175,
+    width: 100,
     backgroundColor: 'white',
     borderWidth: 1,
     borderColor: 'lightgray',

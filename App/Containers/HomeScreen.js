@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { 
   ScrollView, Text, KeyboardAvoidingView, View, FlatList,
-  TouchableOpacity, Image } from 'react-native'
+  TouchableOpacity, Image, TouchableWithoutFeedback } from 'react-native'
 import { connect } from 'react-redux'
 import HomeActions from '../Redux/HomeRedux'
 import { BarIndicator } from 'react-native-indicators';
@@ -61,7 +61,8 @@ class HomeScreen extends Component {
     super()
     this.state = {
       sortVisible: false,
-      sortType: 0
+      sortType: 0,
+      filterType: 0,
     }
   }
 
@@ -76,6 +77,13 @@ class HomeScreen extends Component {
     })
   }
 
+  handleFilterClick = (filterType) => {
+    this.setState({
+      filterVisible: false,
+      filterType
+    })
+  }
+
   sortSwitcher = () => {
     const switcher = {
       '0': (item1, item2) => (item1.date < item2.date),
@@ -86,6 +94,18 @@ class HomeScreen extends Component {
       '5': (item1, item2) => (item1.size > item2.size),
     }
     return switcher[this.state.sortType]
+  }
+
+  filterSwitcher = () => {
+    const switcher = {
+      '0': (item) => item,
+      '1': ({type}) => type === 'directory',
+      '2': ({type}) => type === 'text',
+      '3': ({type}) => type === 'image',
+      '4': ({type}) => type === 'pdf',
+      '5': ({type}) => type === 'html',
+    }
+    return switcher[this.state.filterType]
   }
 
   sortMenu = () => 
@@ -133,15 +153,71 @@ class HomeScreen extends Component {
     </TouchableOpacity>
   </View>
 
+filterMenu = () => 
+  <View style={s.filterMenu}>
+  <TouchableOpacity onPress={() => this.handleFilterClick(0)}>
+      <View style={[s.sortItem, this.state.filterType === 0 && s.dark]}>
+        <Text>none</Text>
+      </View>
+    </TouchableOpacity>
+    <View style={s.line} />
+    <TouchableOpacity onPress={() => this.handleFilterClick(1)}>
+      <View style={[s.sortItem, this.state.filterType === 1 && s.dark]}>
+        <Text>directory</Text>
+      </View>
+    </TouchableOpacity>
+    <View style={s.line} />
+    <TouchableOpacity onPress={() => this.handleFilterClick(2)}>
+      <View style={[s.sortItem, this.state.filterType === 2 && s.dark]}>
+        <Text>text</Text>
+      </View>
+    </TouchableOpacity>
+    <View style={s.line} />
+    <TouchableOpacity onPress={() => this.handleFilterClick(3)}>
+      <View style={[s.sortItem, this.state.filterType === 3 && s.dark]}>
+        <Text>image</Text>
+      </View>
+    </TouchableOpacity>
+    <View style={s.line} />
+    <TouchableOpacity onPress={() => this.handleFilterClick(4)}>
+      <View style={[s.sortItem, this.state.filterType === 4 && s.dark]}>
+        <Text>pdf</Text>
+      </View>
+    </TouchableOpacity>
+    <View style={s.line} />
+    <TouchableOpacity onPress={() => this.handleFilterClick(5)}>
+      <View style={[s.sortItem, this.state.filterType === 5 && s.dark]}>
+        <Text>html</Text>
+      </View>
+    </TouchableOpacity>
+  </View>
+
+  handleSort = () => this.setState({sortVisible: !this.state.sortVisible, filterVisible: false})
+  
+  handleFilter = () => this.setState({filterVisible: !this.state.filterVisible, sortVisible: false})
+
+  handleBackground = () => {
+    if (this.state.sortVisible || this.state.filterVisible) {
+      this.setState({
+        sortVisible: false,
+        filterVisible: false,
+      })
+    }
+  }
+
   render () {
     const { data, path, viewType, fetching, handleChangeView } = this.props
-    const dataFiltered = data.filter(({parent}) => parent === path.length)
+    const dataFiltered = data.filter(({parent}) => parent === path.length).filter(this.filterSwitcher())
     const dataSorted =  dataFiltered.asMutable().sort(this.sortSwitcher())
     
     return (
-      <View style={s.container}>
+      <TouchableWithoutFeedback style={s.container} onPress={this.handleBackground}>
+        <View style={s.container}>
           <View style={s.header}>
-            <TouchableOpacity onPress={() => this.setState({sortVisible: !this.state.sortVisible})} style={s.headerItem}>
+            <TouchableOpacity onPress={this.handleFilter} style={s.headerItem}>
+              <Icon name='filter' size={30} color='deeppink' />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={this.handleSort} style={s.headerItem}>
               <Icon name='sort' size={30} color='deeppink' />
             </TouchableOpacity>
             <TouchableOpacity onPress={handleChangeView} style={s.headerItem}>
@@ -167,7 +243,9 @@ class HomeScreen extends Component {
             renderItem={viewType === 1 ? rowItem : gridItem}
           />}
          {this.state.sortVisible && this.sortMenu()}
-      </View>
+         {this.state.filterVisible && this.filterMenu()}
+        </View>
+      </TouchableWithoutFeedback>
     )
   }
 }
