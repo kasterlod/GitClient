@@ -139,5 +139,32 @@ export default {
     resizeMode: 'contain',
     width: '98%',
     height: '100%',
+  },
+  headerItem: {
+    marginHorizontal: 10
+  },
+  sortItem: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 10,
+    alignItems: 'center',
+    paddingVertical: 10,
+  },
+  line: {
+    backgroundColor: 'lightgray',
+    height: 1,
+  },
+  sortMenu: {
+    position: 'absolute',
+    top: 55,
+    left: 150,
+    width: 140,
+    backgroundColor: 'white',
+    borderWidth: 1,
+    borderColor: 'lightgray',
+    borderRadius: 2
+  },
+  dark: {
+    backgroundColor: 'lightgray',
   }
 }

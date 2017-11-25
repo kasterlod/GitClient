@@ -23,7 +23,7 @@ const gridItem = ({item: { id, modified, name, isAvailable, type, uri, size }}) 
   style={s.gridItem}
   key={id}
 >
-  <View style={s.previewG}>{console.log(uri)}
+  <View style={s.previewG}>
     {previewSwitcher(type, uri)}
   </View>
   <View style={s.colContainerG}>
@@ -57,16 +57,94 @@ const rowItem = ({item: { id, modified, name, isAvailable, type, uri, size }}) =
 </TouchableOpacity>
 
 class HomeScreen extends Component {
+  constructor() {
+    super()
+    this.state = {
+      sortVisible: false,
+      sortType: 0
+    }
+  }
+
   componentDidMount() {
     this.props.getInitialLocation()
   }
 
+  handleSortClick = (sortType) => {
+    this.setState({
+      sortVisible: false,
+      sortType
+    })
+  }
+
+  sortSwitcher = () => {
+    const switcher = {
+      '0': (item1, item2) => (item1.date < item2.date),
+      '1': (item1, item2) => (item1.date > item2.date),
+      '2': (item1, item2) => (item1.name < item2.name),
+      '3': (item1, item2) => (item1.name > item2.name),
+      '4': (item1, item2) => (item1.size < item2.size),
+      '5': (item1, item2) => (item1.size > item2.size),
+    }
+    return switcher[this.state.sortType]
+  }
+
+  sortMenu = () => 
+  <View style={s.sortMenu}>
+    <TouchableOpacity onPress={() => this.handleSortClick(0)}>
+      <View style={[s.sortItem, this.state.sortType === 0 && s.dark]}>
+        <Text>date</Text>
+        <Icon name='sort-desc' size={20} color='deeppink' style={{marginBottom: 7}}/>
+      </View>
+    </TouchableOpacity>
+    <View style={s.line} />
+    <TouchableOpacity onPress={() => this.handleSortClick(1)}>
+      <View style={[s.sortItem, this.state.sortType === 1 && s.dark]}>
+        <Text>date</Text>
+        <Icon name='sort-asc' size={20} color='deeppink' style={{marginTop: 7}}/>
+      </View>
+    </TouchableOpacity>
+    <View style={s.line} />
+    <TouchableOpacity onPress={() => this.handleSortClick(2)}>
+      <View style={[s.sortItem, this.state.sortType === 2 && s.dark]}>
+        <Text>name</Text>
+        <Icon name='sort-desc' size={20} color='deeppink' style={{marginBottom: 7}}/>
+      </View>
+    </TouchableOpacity>
+    <View style={s.line} />
+    <TouchableOpacity onPress={() => this.handleSortClick(3)}>
+      <View style={[s.sortItem, this.state.sortType === 3 && s.dark]}>
+        <Text>name</Text>
+        <Icon name='sort-asc' size={20} color='deeppink' style={{marginTop: 7}}/>
+      </View>
+    </TouchableOpacity>
+    <View style={s.line} />
+    <TouchableOpacity onPress={() => this.handleSortClick(4)}>
+      <View style={[s.sortItem, this.state.sortType === 4 && s.dark]}>
+        <Text>size</Text>
+        <Icon name='sort-desc' size={20} color='deeppink' style={{marginBottom: 7}}/>
+      </View>
+    </TouchableOpacity>
+    <View style={s.line} />
+    <TouchableOpacity onPress={() => this.handleSortClick(5)}>
+      <View style={[s.sortItem, this.state.sortType === 5 && s.dark]}>
+        <Text>size</Text>
+        <Icon name='sort-asc' size={20} color='deeppink' style={{marginTop: 7}}/>
+      </View>
+    </TouchableOpacity>
+  </View>
+
   render () {
     const { data, path, viewType, fetching, handleChangeView } = this.props
+    const dataFiltered = data.filter(({parent}) => parent === path.length)
+    const dataSorted =  dataFiltered.asMutable().sort(this.sortSwitcher())
+    
     return (
       <View style={s.container}>
           <View style={s.header}>
-            <TouchableOpacity onPress={handleChangeView}>
+            <TouchableOpacity onPress={() => this.setState({sortVisible: !this.state.sortVisible})} style={s.headerItem}>
+              <Icon name='sort' size={30} color='deeppink' />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleChangeView} style={s.headerItem}>
               <Icon name={viewType === 1 ? 'th-large' : 'bars'} size={30} color='deeppink' />
             </TouchableOpacity>
           </View>
@@ -83,11 +161,12 @@ class HomeScreen extends Component {
             : <FlatList
             style={s.scroll}
             numColumns={viewType}
-            data={data.filter(({parent}) => parent === path.length)}
+            data={dataSorted}
             key={viewType}
             keyExtractor={(item) => item.id}
             renderItem={viewType === 1 ? rowItem : gridItem}
           />}
+         {this.state.sortVisible && this.sortMenu()}
       </View>
     )
   }
