@@ -50,12 +50,14 @@ export function * upgradeStructureAttempt(api, action) {
       name: `jakis${newestVersion}.txt`,
       type: 'text',
       parent: 0,
+      size: 1024 * 225,
       modified: dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss'),
       isAvailable: false,
     }, {
       key: 2,
       name: `obrazki${newestVersion}`,
       type: 'directory',
+      size: 1024 * 1024 * 2.67,
       parent: 0,
       modified: dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss'),
     },
@@ -63,10 +65,31 @@ export function * upgradeStructureAttempt(api, action) {
       key: 3,
       name: `jakis${newestVersion}.jpg`,
       type: 'image',
-      parent: 2,
+      parent: 0,
+      size: 1024 * 245,
       modified: dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss'),
       isAvailable: false,
+      uri: 'https://www.w3schools.com/w3css/img_fjords.jpg',
     },
+    {
+      key: 4,
+      name: `jakis${newestVersion}.jpg`,
+      type: 'image',
+      parent: 2,
+      size: 1024 * 245,
+      modified: dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss'),
+      isAvailable: false,
+      uri: 'https://www.w3schools.com/w3css/img_fjords.jpg',
+    },
+    {
+      key: 5,
+      name: `jakis${newestVersion}.txt`,
+      type: 'text',
+      parent: 2,
+      size: 1024 * 225,
+      modified: dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss'),
+      isAvailable: false,
+    }
   ]}
   yield call(saveStructure, {...data})  
   yield call(saveRealmSettings, {newestVersion, newestVersionDate, newestVersionTotalElements})

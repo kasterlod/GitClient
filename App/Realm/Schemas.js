@@ -30,6 +30,11 @@ export const Files = {
         name: 'string',
         type: 'string',
         parent: 'int',
+        size: 'int',
+        uri: {
+            type: 'string',
+            default: '',
+        },
         modified: 'string',
         isAvailable: {
             type: 'bool',

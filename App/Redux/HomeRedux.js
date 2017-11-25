@@ -22,16 +22,7 @@ export default Creators
 
 export const INITIAL_STATE = Immutable({
   data: [],
-  path: [
-    {
-      name: 'Home',
-      id: 0,
-    },
-    {
-      name: 'Home2',
-      id: 10,
-    }
-  ],
+  path: [],
   viewType: 3,
   fetching: true,
 })

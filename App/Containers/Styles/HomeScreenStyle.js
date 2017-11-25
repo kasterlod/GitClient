@@ -8,7 +8,10 @@ export default {
     marginTop: 8,
     backgroundColor: 'white',
     padding: 10,
-    justifyContent: 'center'
+    width: '100%',
+    justifyContent: 'flex-end',
+    flexDirection: 'row',
+    alignItems: 'flex-end',
   },
   line: {
     backgroundColor: 'deeppink',
@@ -48,6 +51,8 @@ export default {
     width: 45,
     borderWidth: 1,
     borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   nameR: {
     height: 20,
@@ -59,8 +64,8 @@ export default {
     justifyContent: 'space-between'
   },
   typeR: {
-    height: 20,
-    marginHorizontal: 10,
+    marginHorizontal: 3,
+    fontSize: 10,
     color: 'deeppink'
   },
   dateR: {
@@ -105,6 +110,8 @@ export default {
     width: 100,
     borderWidth: 1,
     borderRadius: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   colContainerG: {
     marginTop: 3,
@@ -128,4 +135,9 @@ export default {
     top: 5,
     right: 7,
   },
+  image: {
+    resizeMode: 'contain',
+    width: '98%',
+    height: '100%',
+  }
 }

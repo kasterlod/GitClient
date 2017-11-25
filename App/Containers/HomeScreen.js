@@ -1,36 +1,56 @@
 import React, { Component } from 'react'
 import { 
   ScrollView, Text, KeyboardAvoidingView, View, FlatList,
-  TouchableOpacity, } from 'react-native'
+  TouchableOpacity, Image } from 'react-native'
 import { connect } from 'react-redux'
 import HomeActions from '../Redux/HomeRedux'
 import { BarIndicator } from 'react-native-indicators';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import s from './Styles/HomeScreenStyle'
 
-const gridItem = ({item: { id, modified, name, isAvailable, type }}) => 
+const previewSwitcher = (type, uri, small) => {
+  const switcher = {
+    directory: <Icon name='folder' size={small ? 25 : 50} color='black' />,
+    image: <Image source={{uri}} style={s.image} />,
+    text: <Icon name='file-text' size={small ? 25 : 45} color='black' />,
+    pdf: <Icon name='file-pdf-o' size={small ? 25 : 45} color='black' />,
+  }
+ return switcher[type]
+}
+
+const gridItem = ({item: { id, modified, name, isAvailable, type, uri, size }}) => 
 <TouchableOpacity
   style={s.gridItem}
   key={id}
 >
-  <View style={s.previewG} />
+  <View style={s.previewG}>{console.log(uri)}
+    {previewSwitcher(type, uri)}
+  </View>
   <View style={s.colContainerG}>
     <Text style={s.nameR}>{name}</Text>
-    <Text style={s.typeR}>{type}</Text>
+    <View style={{flexDirection: 'row', marginBottom: 2}}>
+      <Text style={s.typeR}>{type}</Text>
+      <Text style={s.typeR}>{`${parseFloat(size/1024/1024).toFixed(2)} MB`}</Text>
+    </View>
   </View>
   <Text style={s.dateG}>{modified}</Text>
   {isAvailable !== undefined && <View style={{...s.statusG, ...isAvailable ? s.available : s.unavailable}} />}
 </TouchableOpacity>
 
-const rowItem = ({item: { id, modified, name, isAvailable, type }}) =>
+const rowItem = ({item: { id, modified, name, isAvailable, type, uri, size }}) =>
 <TouchableOpacity
   style={s.rowItem}
   key={id}
 >
-  <View style={s.previewR} />
+  <View style={s.previewR} >
+    {previewSwitcher(type, uri, true)}
+  </View>
   <View style={s.colContainer}>
     <Text style={s.nameR}>{name}</Text>
-    <Text style={s.typeR}>{type}</Text>
+    <View style={{flexDirection: 'row', marginLeft: 5}}>
+      <Text style={s.typeR}>{type}</Text>
+      <Text style={s.typeR}>{`${parseFloat(size/1024/1024).toFixed(2)} MB`}</Text>
+    </View>
   </View>
   <Text style={s.dateR}>{modified}</Text>
   {isAvailable !== undefined && <View style={{...s.statusR, ...isAvailable ? s.available : s.unavailable}} />}
@@ -63,7 +83,7 @@ class HomeScreen extends Component {
             : <FlatList
             style={s.scroll}
             numColumns={viewType}
-            data={data}
+            data={data.filter(({parent}) => parent === path.length)}
             key={viewType}
             keyExtractor={(item) => item.id}
             renderItem={viewType === 1 ? rowItem : gridItem}
