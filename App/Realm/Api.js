@@ -74,6 +74,7 @@ export const getInitialLocation = ImmutableRealm((props, realm) => {
   try {
     const settings = realm.objectForPrimaryKey('Settings', 0)
     const currentStructure = realm.objectForPrimaryKey('Structure', settings.currentVersion)
+    console.log(currentStructure.data)
     return currentStructure.data
   } catch (err) {
     console.log(err)

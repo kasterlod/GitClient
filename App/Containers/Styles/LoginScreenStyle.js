@@ -37,7 +37,6 @@ export default {
     alignSelf: 'center',
     flexDirection: 'column',
     justifyContent: 'center',
-    opacity: 0.2,
     width: 180,
     height: 37,
   },

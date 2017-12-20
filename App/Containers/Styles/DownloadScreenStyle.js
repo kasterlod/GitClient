@@ -7,15 +7,14 @@ export default StyleSheet.create({
     justifyContent: 'center'
   },
   versionContainer: {
-    flex: 1,
+    width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 35
   },
   smallPanel: {
     width: 130,
-    height: 70,
+    height: 80,
     margin: 10,
     padding: 8,
     borderRadius: 8,
@@ -23,11 +22,11 @@ export default StyleSheet.create({
     justifyContent: 'space-between'
   },
   mainPanel: {
-    margin: 10,
+    marginVertical: 10,
     borderRadius: 8,
     backgroundColor: 'white',
     padding: 15,
-    height: 140
+    height: 100
   },
   h: {
     fontWeight: 'bold',
@@ -72,7 +71,8 @@ export default StyleSheet.create({
     backgroundColor: 'deeppink',
     borderRadius: 6,
     marginHorizontal: 8,
-    marginTop: 230,
+    padding: 5,
+    marginTop: 210,
     alignItems: 'center',
     alignSelf: 'center',
     flexDirection: 'column',

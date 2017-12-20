@@ -8,10 +8,8 @@ import {startsWith} from 'ramdasauce'
 const {Types, Creators} = createActions({
   getInitialLocationAttempt: null,
   getInitialLocationSuccess: ['values'],
-  navigateTo: ['id'],
-  navigateToSuccess: ['location'],
+  navigateTo: ['name', 'key'],
   navigateBack: null,
-  navigateBackSuccess: ['location'],
   changeViewType: null,
 })
 
@@ -30,8 +28,11 @@ export const INITIAL_STATE = Immutable({
 /* ------------- Hookup Reducers To Types ------------- */
 
 export const reducer = createReducer(INITIAL_STATE, {
-  [Types.NAVIGATE_BACK_SUCCESS]: (state, { data }) => state.merge({
-    data
+  [Types.NAVIGATE_BACK]: (state) => state.merge({
+    path: state.path.slice(0, state.path.length - 1),
+  }),
+  [Types.NAVIGATE_TO]: (state, { name, key }) => state.merge({
+    path: [...state.path, { name, key }]
   }),
   [Types.GET_INITIAL_LOCATION_SUCCESS]: (state, { values }) => state.merge({
     data: values,

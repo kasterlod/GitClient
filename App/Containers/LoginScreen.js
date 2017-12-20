@@ -47,7 +47,7 @@ class LoginScreen extends Component {
             <Button
               onPress={this.handleSubmit}
               submitting={submitting || fetching}
-              disabled={invalid || !dirty}
+              disabled={invalid}
               style={s.button}
               text={'Sign in'}
             />

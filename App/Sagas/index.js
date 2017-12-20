@@ -22,7 +22,11 @@ import {
   getNewestVersionAttempt,
   upgradeStructureAttempt,
 } from './DownloadSagas'
-import { getInitialLocationAttempt } from './HomeSagas'
+import {
+  getInitialLocationAttempt,
+  navigateToAttempt,
+  navigateBackAttempt,
+} from './HomeSagas'
 
 /* ------------- API ------------- */
 
@@ -47,7 +51,6 @@ export default function * root () {
     takeLatest(DownloadTypes.GET_NEWEST_VERSION_ATTEMPT, getNewestVersionAttempt, api),
     takeLatest(DownloadTypes.UPGRADE_STRUCTURE_ATTEMPT, upgradeStructureAttempt, api),
     
-    takeLatest(HomeTypes.GET_INITIAL_LOCATION_ATTEMPT, getInitialLocationAttempt)
-
+    takeLatest(HomeTypes.GET_INITIAL_LOCATION_ATTEMPT, getInitialLocationAttempt),
   ])
 }

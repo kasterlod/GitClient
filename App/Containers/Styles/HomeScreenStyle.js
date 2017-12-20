@@ -5,7 +5,6 @@ export default {
   ...ApplicationStyles.screen,
   header: {
     height: 50,
-    marginTop: 8,
     backgroundColor: 'white',
     padding: 10,
     width: '100%',
@@ -142,6 +141,11 @@ export default {
   },
   headerItem: {
     marginHorizontal: 10
+  },
+  backIcon: {
+    position: 'absolute',
+    left: 20,
+    top: 12
   },
   sortItem: {
     flexDirection: 'row',

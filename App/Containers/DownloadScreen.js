@@ -35,7 +35,6 @@ class DownloadScreen extends Component {
     } = this.props
     return (
       <View style={s.container}>
-        <KeyboardAvoidingView behavior='position'>
           <View style={s.versionContainer}>
             <View style={s.smallPanel}>
               <Text style={s.h}>Current version</Text>
@@ -106,7 +105,6 @@ class DownloadScreen extends Component {
                 text={'Upgrade Structure'}
             />}
             </View>
-        </KeyboardAvoidingView>
       </View>
     )
   }

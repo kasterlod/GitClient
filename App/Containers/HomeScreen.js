@@ -8,54 +8,6 @@ import { BarIndicator } from 'react-native-indicators';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import s from './Styles/HomeScreenStyle'
 
-const previewSwitcher = (type, uri, small) => {
-  const switcher = {
-    directory: <Icon name='folder' size={small ? 25 : 50} color='black' />,
-    image: <Image source={{uri}} style={s.image} />,
-    text: <Icon name='file-text' size={small ? 25 : 45} color='black' />,
-    pdf: <Icon name='file-pdf-o' size={small ? 25 : 45} color='black' />,
-  }
- return switcher[type]
-}
-
-const gridItem = ({item: { id, modified, name, isAvailable, type, uri, size }}) => 
-<TouchableOpacity
-  style={s.gridItem}
-  key={id}
->
-  <View style={s.previewG}>
-    {previewSwitcher(type, uri)}
-  </View>
-  <View style={s.colContainerG}>
-    <Text style={s.nameR}>{name}</Text>
-    <View style={{flexDirection: 'row', marginBottom: 2}}>
-      <Text style={s.typeR}>{type}</Text>
-      <Text style={s.typeR}>{`${parseFloat(size/1024/1024).toFixed(2)} MB`}</Text>
-    </View>
-  </View>
-  <Text style={s.dateG}>{modified}</Text>
-  {isAvailable !== undefined && <View style={{...s.statusG, ...isAvailable ? s.available : s.unavailable}} />}
-</TouchableOpacity>
-
-const rowItem = ({item: { id, modified, name, isAvailable, type, uri, size }}) =>
-<TouchableOpacity
-  style={s.rowItem}
-  key={id}
->
-  <View style={s.previewR} >
-    {previewSwitcher(type, uri, true)}
-  </View>
-  <View style={s.colContainer}>
-    <Text style={s.nameR}>{name}</Text>
-    <View style={{flexDirection: 'row', marginLeft: 5}}>
-      <Text style={s.typeR}>{type}</Text>
-      <Text style={s.typeR}>{`${parseFloat(size/1024/1024).toFixed(2)} MB`}</Text>
-    </View>
-  </View>
-  <Text style={s.dateR}>{modified}</Text>
-  {isAvailable !== undefined && <View style={{...s.statusR, ...isAvailable ? s.available : s.unavailable}} />}
-</TouchableOpacity>
-
 class HomeScreen extends Component {
   constructor() {
     super()
@@ -108,6 +60,62 @@ class HomeScreen extends Component {
     return switcher[this.state.filterType]
   }
 
+  onFolderPress = ({ key, name }) => () => this.props.navigateTo(name, key)
+
+  onShowDetailsPress = item => () => {
+    console.log('dwadwadwadw')
+  }
+
+  previewSwitcher = (type, uri, small) => {
+    const switcher = {
+      directory: <Icon name='folder' size={small ? 25 : 50} color='black' />,
+      image: <Image source={{uri}} style={s.image} />,
+      text: <Icon name='file-text' size={small ? 25 : 45} color='black' />,
+      pdf: <Icon name='file-pdf-o' size={small ? 25 : 45} color='black' />,
+    }
+   return switcher[type]
+  }
+  
+  gridItem = ({item, item: { id, modified, name, isAvailable, type, uri, size }}) => 
+  <TouchableOpacity
+    style={s.gridItem}
+    onPress={type === 'directory' ? this.onFolderPress(item) : this.onShowDetailsPress(item)}
+    key={id}
+  >
+    <View style={s.previewG}>
+      {this.previewSwitcher(type, uri)}
+    </View>
+    <View style={s.colContainerG}>
+      <Text style={s.nameR}>{name}</Text>
+      <View style={{flexDirection: 'row', marginBottom: 2}}>
+        <Text style={s.typeR}>{type}</Text>
+        <Text style={s.typeR}>{`${parseFloat(size/1024/1024).toFixed(2)} MB`}</Text>
+      </View>
+    </View>
+    <Text style={s.dateG}>{modified}</Text>
+    {type !== 'directory' && isAvailable !== undefined && <View style={{...s.statusG, ...isAvailable ? s.available : s.unavailable}} />}
+  </TouchableOpacity>
+  
+  rowItem = ({item, item: { id, modified, name, isAvailable, type, uri, size }}) =>
+  <TouchableOpacity
+    style={s.rowItem}
+    onPress={type === 'directory' ? this.onFolderPress(item) : this.onShowDetailsPress(item)}
+    key={id}
+  >
+    <View style={s.previewR} >
+      {this.previewSwitcher(type, uri, true)}
+    </View>
+    <View style={s.colContainer}>
+      <Text style={s.nameR}>{name}</Text>
+      <View style={{flexDirection: 'row', marginLeft: 5}}>
+        <Text style={s.typeR}>{type}</Text>
+        <Text style={s.typeR}>{`${parseFloat(size/1024/1024).toFixed(2)} MB`}</Text>
+      </View>
+    </View>
+    <Text style={s.dateR}>{modified}</Text>
+    {type !== 'directory' && isAvailable !== undefined && <View style={{...s.statusR, ...isAvailable ? s.available : s.unavailable}} />}
+  </TouchableOpacity>
+
   sortMenu = () => 
   <View style={s.sortMenu}>
     <TouchableOpacity onPress={() => this.handleSortClick(0)}>
@@ -153,45 +161,46 @@ class HomeScreen extends Component {
     </TouchableOpacity>
   </View>
 
-filterMenu = () => 
-  <View style={s.filterMenu}>
-  <TouchableOpacity onPress={() => this.handleFilterClick(0)}>
-      <View style={[s.sortItem, this.state.filterType === 0 && s.dark]}>
-        <Text>none</Text>
-      </View>
-    </TouchableOpacity>
-    <View style={s.line} />
-    <TouchableOpacity onPress={() => this.handleFilterClick(1)}>
-      <View style={[s.sortItem, this.state.filterType === 1 && s.dark]}>
-        <Text>directory</Text>
-      </View>
-    </TouchableOpacity>
-    <View style={s.line} />
-    <TouchableOpacity onPress={() => this.handleFilterClick(2)}>
-      <View style={[s.sortItem, this.state.filterType === 2 && s.dark]}>
-        <Text>text</Text>
-      </View>
-    </TouchableOpacity>
-    <View style={s.line} />
-    <TouchableOpacity onPress={() => this.handleFilterClick(3)}>
-      <View style={[s.sortItem, this.state.filterType === 3 && s.dark]}>
-        <Text>image</Text>
-      </View>
-    </TouchableOpacity>
-    <View style={s.line} />
-    <TouchableOpacity onPress={() => this.handleFilterClick(4)}>
-      <View style={[s.sortItem, this.state.filterType === 4 && s.dark]}>
-        <Text>pdf</Text>
-      </View>
-    </TouchableOpacity>
-    <View style={s.line} />
-    <TouchableOpacity onPress={() => this.handleFilterClick(5)}>
-      <View style={[s.sortItem, this.state.filterType === 5 && s.dark]}>
-        <Text>html</Text>
-      </View>
-    </TouchableOpacity>
-  </View>
+  filterMenu = () => 
+    <View style={s.filterMenu}>
+    <TouchableOpacity onPress={() => this.handleFilterClick(0)}>
+        <View style={[s.sortItem, this.state.filterType === 0 && s.dark]}>
+          <Text>none</Text>
+        </View>
+      </TouchableOpacity>
+      <View style={s.line} />
+      <TouchableOpacity onPress={() => this.handleFilterClick(1)}>
+        <View style={[s.sortItem, this.state.filterType === 1 && s.dark]}>
+          <Text>directory</Text>
+        </View>
+      </TouchableOpacity>
+      <View style={s.line} />
+      <TouchableOpacity onPress={() => this.handleFilterClick(2)}>
+        <View style={[s.sortItem, this.state.filterType === 2 && s.dark]}>
+          <Text>text</Text>
+        </View>
+      </TouchableOpacity>
+      <View style={s.line} />
+      <TouchableOpacity onPress={() => this.handleFilterClick(3)}>
+        <View style={[s.sortItem, this.state.filterType === 3 && s.dark]}>
+          <Text>image</Text>
+        </View>
+      </TouchableOpacity>
+      <View style={s.line} />
+      <TouchableOpacity onPress={() => this.handleFilterClick(4)}>
+        <View style={[s.sortItem, this.state.filterType === 4 && s.dark]}>
+          <Text>pdf</Text>
+        </View>
+      </TouchableOpacity>
+      <View style={s.line} />
+      <TouchableOpacity onPress={() => this.handleFilterClick(5)}>
+        <View style={[s.sortItem, this.state.filterType === 5 && s.dark]}>
+          <Text>html</Text>
+        </View>
+      </TouchableOpacity>
+    </View>
 
+  
   handleSort = () => this.setState({sortVisible: !this.state.sortVisible, filterVisible: false})
   
   handleFilter = () => this.setState({filterVisible: !this.state.filterVisible, sortVisible: false})
@@ -206,14 +215,23 @@ filterMenu = () =>
   }
 
   render () {
-    const { data, path, viewType, fetching, handleChangeView } = this.props
-    const dataFiltered = data.filter(({parent}) => parent === path.length).filter(this.filterSwitcher())
+    const { data, path, viewType, fetching, handleChangeView, navigateBack } = this.props
+    
+    const currentPath = path.asMutable()
+    const currentPathLength = currentPath.length
+    const dataFiltered = data
+      .filter(({ parent }) => parent === (!currentPathLength ? currentPathLength : currentPath[currentPathLength - 1].key))
+      .filter(this.filterSwitcher())
     const dataSorted =  dataFiltered.asMutable().sort(this.sortSwitcher())
     
     return (
       <TouchableWithoutFeedback style={s.container} onPress={this.handleBackground}>
-        <View style={s.container}>
+        <View style={[s.container, { paddingTop: 0 }]}>
           <View style={s.header}>
+            {currentPathLength > 0 && 
+              <TouchableOpacity onPress={navigateBack} style={s.backIcon}>
+                <Icon name='chevron-left' size={30} color='deeppink' />
+              </TouchableOpacity>}
             <TouchableOpacity onPress={this.handleFilter} style={s.headerItem}>
               <Icon name='filter' size={30} color='deeppink' />
             </TouchableOpacity>
@@ -240,7 +258,7 @@ filterMenu = () =>
             data={dataSorted}
             key={viewType}
             keyExtractor={(item) => item.id}
-            renderItem={viewType === 1 ? rowItem : gridItem}
+            renderItem={viewType === 1 ? this.rowItem : this.gridItem}
           />}
          {this.state.sortVisible && this.sortMenu()}
          {this.state.filterVisible && this.filterMenu()}
@@ -260,6 +278,8 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   getInitialLocation: () => dispatch(HomeActions.getInitialLocationAttempt()),
   handleChangeView: () => dispatch(HomeActions.changeViewType()),
+  navigateTo: (name, id) => dispatch(HomeActions.navigateTo(name, id)),
+  navigateBack: () => dispatch(HomeActions.navigateBack()),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen)

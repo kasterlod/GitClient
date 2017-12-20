@@ -57,7 +57,7 @@ export function * upgradeStructureAttempt(api, action) {
       key: 2,
       name: `obrazki${newestVersion}`,
       type: 'directory',
-      size: 1024 * 1024 * 2.67,
+      size: 1024 * 1024 * 0.46,
       parent: 0,
       modified: dateFormat(new Date(), 'yyyy-mm-dd h:MM:ss'),
     },
